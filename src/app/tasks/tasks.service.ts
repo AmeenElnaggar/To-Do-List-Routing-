@@ -4,7 +4,7 @@ import { Task, type NewTaskData } from './task/task.model';
 import { ActivatedRoute, ResolveFn } from '@angular/router';
 import { resolveUserName } from '../users/users.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TasksService {
   private tasks = signal([
     {

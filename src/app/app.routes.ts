@@ -1,10 +1,10 @@
 import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
+import { inject } from '@angular/core';
+
 import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
-import { routes as userRoutes } from './users/users.routes';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { resolveUserName } from './users/users.service';
-import { inject } from '@angular/core';
 
 export const authorizedFn: CanMatchFn = (route, segements) => {
   const router = inject(Router);
@@ -21,7 +21,8 @@ export const routes: Routes = [
   {
     path: 'users/:userId',
     component: UserTasksComponent,
-    children: userRoutes,
+    loadChildren: () =>
+      import('./users/users.routes').then((mod) => mod.routes),
     resolve: { userName: resolveUserName },
     canMatch: [authorizedFn],
   },
